@@ -24,22 +24,11 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Prepare SSH key
-        run: |
-          echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-
-      - name: Prepare target directory
-        run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem \
-          ${{ secrets.CPANEL_SSH_USERNAME }}@65.254.93.21 \
-          "mkdir -p /home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html/recruitiq && rm -rf /home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html/recruitiq/*"
-
       - name: Deploy build folder via SFTP
         uses: appleboy/scp-action@v0.1.4
         with:
           host: 65.254.93.21
-          username: ${{ secrets.CPANEL_SSH_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+          username: ${{ secrets.CPANEL_SSH_USERNAME }} # act
+          password: ${{ secrets.CPANEL_SSH_PASSWORD }} # your cPanel password
           source: "./build/*"
           target: "/home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html/recruitiq/"

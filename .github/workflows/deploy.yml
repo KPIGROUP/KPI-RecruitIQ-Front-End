@@ -13,27 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 1. Setup Node.js
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 2. Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: npm install
-        working-directory: ./frontend   # Adjust if your React app is in a folder
 
-      # 3. Build React app
+      # Build React app
       - name: Build React app
         run: npm run build
-        working-directory: ./frontend
 
-      # 4. Zip build folder
+      # Zip build folder
       - name: Zip build folder
-        run: cd frontend && zip -r build.zip build
+        run: zip -r build.zip build
 
-      # 5. Clear old files in subdomain folder
+      # Clear old files
       - name: Clear old files
         run: |
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
@@ -42,15 +40,15 @@ jobs:
             -d "skiptrash=1" \
             "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/delete"
 
-      # 6. Upload ZIP to cPanel
+      # Upload ZIP
       - name: Upload ZIP
         run: |
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
-            -F "file=@frontend/build.zip" \
+            -F "file=@build.zip" \
             -F "dir=/public_html/recruitiq.automatedconetruck.com.au" \
             "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/upload_files"
 
-      # 7. Extract ZIP
+      # Extract ZIP
       - name: Extract ZIP
         run: |
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
@@ -58,7 +56,7 @@ jobs:
             -d "destdir=/public_html/recruitiq.automatedconetruck.com.au" \
             "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/extract_archive"
 
-      # 8. Delete ZIP
+      # Delete ZIP
       - name: Delete ZIP
         run: |
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \

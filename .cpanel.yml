@@ -3,3 +3,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/act/public_html/recruitiq.automatedconetruck.com.au/
     - /bin/cp -R * $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/.git
+    - /bin/chmod -R 755 $DEPLOYPATH

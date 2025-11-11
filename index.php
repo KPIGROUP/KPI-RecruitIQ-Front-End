@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RecruitIQ | KPI Group Recruitment Portal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/distap.min.css
+    https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
     <style>
         body { font-family: Arial, sans-serif; }
         .hero {
@@ -43,17 +43,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">#Home</a></li>
                 <li class="nav-item">#Jobs Board</a></li>
-                <li class="nav-item">#Login</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Hero Section -->
-<section class="hero">
-    <h1>RecruitIQ</h1>
-    <p class="lead">Streamlined Recruitment for KPI Group</p>
-    #View Jobs</a>
+               ="#" class="btn btn-light btn-lg">View Jobs</a>
 </section>
 
 <!-- Jobs Preview -->
@@ -63,10 +53,7 @@
         <h4>Traffic Controller (Victoria)</h4>
         <p>Join our team managing traffic for major projects across Victoria.</p>
         #Apply Now</a>
-    </div>
-    <div class="job-card">
-        <h4>TMA Operator (Victoria)</h4>
-        <p>Operate Truck Mounted Attenuators for road safety operations.</p>
+    road safety operations.</p>
         #Apply Now</a>
     </div>
 </section>

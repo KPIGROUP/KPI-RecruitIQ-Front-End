@@ -13,52 +13,44 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build React app
       - name: Build React app
         run: npm run build
 
-      # Zip build folder
       - name: Zip build folder
         run: zip -r build.zip build
 
-      # Clear old files
       - name: Clear old files
         run: |
-          curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
+          curl -k -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -d "dir=/public_html/recruitiq.automatedconetruck.com.au" \
             -d "files[]=*" \
             -d "skiptrash=1" \
-            "https://automatedconetruck.com.au:2083/execute/Fileman/delete"
+            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/delete"
 
-      # Upload ZIP
       - name: Upload ZIP
         run: |
-          curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
+          curl -k -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -F "file=@build.zip" \
             -F "dir=/public_html/recruitiq.automatedconetruck.com.au" \
-            "https://automatedconetruck.com.au:2083/execute/Fileman/upload_files"
+            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/upload_files"
 
-      # Extract ZIP
       - name: Extract ZIP
         run: |
-          curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
+          curl -k -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -d "sourcefile=/public_html/recruitiq.automatedconetruck.com.au/build.zip" \
             -d "destdir=/public_html/recruitiq.automatedconetruck.com.au" \
-            "https://automatedconetruck.com.au:2083/execute/Fileman/extract_archive"
+            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/extract_archive"
 
-      # Delete ZIP
       - name: Delete ZIP
         run: |
-          curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
+          curl -k -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -d "file=/public_html/recruitiq.automatedconetruck.com.au/build.zip" \
-            "https://automatedconetruck.com.au:2083/execute/Fileman/delete"
+            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/delete"

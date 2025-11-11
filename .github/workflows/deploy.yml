@@ -38,7 +38,7 @@ jobs:
             -d "dir=/public_html/recruitiq.automatedconetruck.com.au" \
             -d "files[]=*" \
             -d "skiptrash=1" \
-            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/delete"
+            "https://automatedconetruck.com.au:2083/execute/Fileman/delete"
 
       # Upload ZIP
       - name: Upload ZIP
@@ -46,7 +46,7 @@ jobs:
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -F "file=@build.zip" \
             -F "dir=/public_html/recruitiq.automatedconetruck.com.au" \
-            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/upload_files"
+            "https://automatedconetruck.com.au:2083/execute/Fileman/upload_files"
 
       # Extract ZIP
       - name: Extract ZIP
@@ -54,11 +54,11 @@ jobs:
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -d "sourcefile=/public_html/recruitiq.automatedconetruck.com.au/build.zip" \
             -d "destdir=/public_html/recruitiq.automatedconetruck.com.au" \
-            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/extract_archive"
+            "https://automatedconetruck.com.au:2083/execute/Fileman/extract_archive"
 
       # Delete ZIP
       - name: Delete ZIP
         run: |
           curl -u "${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_PASSWORD }}" \
             -d "file=/public_html/recruitiq.automatedconetruck.com.au/build.zip" \
-            "https://${{ secrets.CPANEL_SSH_HOST }}:2083/execute/Fileman/delete"
+            "https://automatedconetruck.com.au:2083/execute/Fileman/delete"

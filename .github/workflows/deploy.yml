@@ -3,7 +3,7 @@ name: Deploy React Frontend to cPanel
 on:
   push:
     branches:
-      - main  # Adjust if your deployment branch is different
+      - main
 
 jobs:
   build-and-deploy:
@@ -26,7 +26,9 @@ jobs:
 
       - name: Clean target directory on server
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.CPANEL_SSH_PRIVATE_KEY }} ${{ secrets.CPANEL_SSH_USERNAME }}@${{ secrets.CPANEL_SSH_HOST }} "rm -rf /home/your-cpanel-username/public_html/recruitiq/*"
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.CPANEL_SSH_PRIVATE_KEY }} \
+          ${{ secrets.CPANEL_SSH_USERNAME }}@${{ secrets.CPANEL_SSH_HOST }} \
+          "rm -rf /home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html/recruitiq/*"
 
       - name: Deploy build folder via SFTP
         uses: appleboy/scp-action@v0.1.4
@@ -34,5 +36,5 @@ jobs:
           host: ${{ secrets.CPANEL_SSH_HOST }}
           username: ${{ secrets.CPANEL_SSH_USERNAME }}
           key: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
-          source: "./dist"   # or ./build depending on your React config
-          target: "/home/your-cpanel-username/public_html/recruitiq/"
+          source: "./build/*"
+          target: "/home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html/recruitiq/"
